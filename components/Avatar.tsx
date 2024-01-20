@@ -1,11 +1,30 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { useContractRead, useContractWrite } from "wagmi";
+
+import { Soul } from "@/config/contracts";
+import { useSearchParams } from "next/navigation";
 
 const Avatar = () => {
   const [avatarCid, setAvatarCid] = useState("");
   const [uploading, setUploading] = useState(false);
   const [image, setImage] = useState(null);
   const inputFile = useRef(null);
+
+  const searchParams = useSearchParams();
+  const address = searchParams.get("address");
+
+  const { data } = useContractRead({
+    ...Soul,
+    address,
+    functionName: "getAvatarCid",
+  });
+
+  const { write } = useContractWrite({
+    ...Soul,
+    address,
+    functionName: "updateAvatarCid",
+  });
 
   const showAvatar = (file) => {
     const reader = new FileReader(file);
@@ -23,6 +42,7 @@ const Avatar = () => {
         body: formData,
       });
       const ipfsHash = await res.text();
+      write({ args: [ipfsHash] });
       setAvatarCid(ipfsHash);
       setUploading(false);
     } catch (e) {
@@ -39,6 +59,10 @@ const Avatar = () => {
     showAvatar(file);
     uploadFile(file);
   };
+
+  useEffect(() => {
+    if (data !== undefined) setAvatarCid(data);
+  }, [data]);
   return (
     <div className="py-4">
       <input

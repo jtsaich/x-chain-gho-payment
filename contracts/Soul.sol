@@ -3,6 +3,8 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract Soul {
     address[] public accounts;
+    address public owner;
+    string public avatorCid;
 
     // string public tokenType;
     string public name;
@@ -16,15 +18,20 @@ contract Soul {
 
     constructor(string memory _name){
         name = _name;
+        owner = msg.sender;
     }
 
     function addNewWallet(address _accountAddress) public {
         accounts.push(_accountAddress);
     }
 
-    // function _createToken(string cid, string name, string description) private {
-    //     require(cid == "", "CID can't be an empty string");
-    //     require(name == "", "Name can't be an empty string");
-    //     return token({cid, name, description});
-    // }
+    function getAvatarCid() public view returns(string memory) {
+        return avatorCid;
+    }
+
+    function updateAvatarCid(string memory _cid) public {
+        require(owner != msg.sender, "Only owner update avator");
+        avatorCid = _cid;
+    }
+
 }
