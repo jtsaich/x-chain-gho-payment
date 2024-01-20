@@ -1,10 +1,6 @@
-import SoulFactory from "@/artifacts/contracts/SoulFactory.sol/SoulFactory.json";
+import _SoulFactory from "@/artifacts/contracts/SoulFactory.sol/SoulFactory.json";
 
-const contractConfig = {
-  SoulFactory: {
-    address: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
-    abi: SoulFactory.abi,
-  },
+export const SoulFactory = {
+  address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+  abi: _SoulFactory.abi,
 };
-
-export default contractConfig;
