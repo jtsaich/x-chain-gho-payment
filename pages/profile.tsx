@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 import Avatar from "@/components/Avatar";
 import { useSearchParams } from "next/navigation";
 
-const profile = () => {
+const Profile = () => {
   const searchParams = useSearchParams();
   const address = searchParams.get("address");
   const name = searchParams.get("name");
@@ -23,4 +23,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;
