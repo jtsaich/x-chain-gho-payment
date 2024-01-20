@@ -32,7 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <WagmiConfig config={config}>
       <ConnectKitProvider>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </ConnectKitProvider>
     </WagmiConfig>
   );
