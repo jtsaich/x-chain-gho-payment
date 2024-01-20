@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
     "axios": "^1.6.5",
     "connectkit": "^1.6.0",
     "connectkit-next-siwe": "^0.2.0",
