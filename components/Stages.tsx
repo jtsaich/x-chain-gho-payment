@@ -35,7 +35,7 @@ const Stages = () => {
               <div
                 className="w-[100px] hover:text-sky-500 cursor-pointer"
                 onClick={() =>
-                  router.push(`/profile?name=${el.name}&address=${el.addr}}`)
+                  router.push(`/profile?name=${el.name}&address=${el.addr}`)
                 }
               >
                 {el.name}

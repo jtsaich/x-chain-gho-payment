@@ -40,7 +40,7 @@ const Avatar = () => {
     uploadFile(file);
   };
   return (
-    <div>
+    <div className="py-4">
       <input
         type="file"
         id="file"
