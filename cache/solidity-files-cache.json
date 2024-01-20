@@ -1,0 +1,77 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/elmer/Documents/project/x-chain-gho-payment/contracts/Soul.sol": {
+      "lastModificationDate": 1705731523745,
+      "contentHash": "d25d3e7bc2731e2307a5ae14468631fd",
+      "sourceName": "contracts/Soul.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "Soul"
+      ]
+    },
+    "/Users/elmer/Documents/project/x-chain-gho-payment/contracts/SoulFactory.sol": {
+      "lastModificationDate": 1705731523746,
+      "contentHash": "8c1e6004126b01f77217c902c06e9a56",
+      "sourceName": "contracts/SoulFactory.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Soul.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "SoulFactory"
+      ]
+    }
+  }
+}

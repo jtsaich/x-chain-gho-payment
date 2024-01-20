@@ -14,6 +14,9 @@ dependencies:
   axios:
     specifier: ^1.6.5
     version: 1.6.5
+  colors:
+    specifier: ^1.4.0
+    version: 1.4.0
   connectkit:
     specifier: ^1.6.0
     version: 1.6.0(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0)(typescript@5.3.3)(viem@1.21.4)(wagmi@1.4.13)
