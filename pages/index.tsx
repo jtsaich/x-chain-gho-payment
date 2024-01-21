@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import CreateNFTCollection from "@/components/CreateNFTCollection";
+import NFTCollections from "@/components/NFTCollections";
 
 const Stages = dynamic(() => import("@/components/Stages"), {
   ssr: false,
@@ -21,10 +22,14 @@ export default function Home() {
           <Stages />
         </div>
         <div className="w-full px-4">
-          <h2>Create Your NFT Collection</h2>
+          <h2 className="text-3xl">Create Your NFT Collection</h2>
           <div className="w-full max-w-screen-sm">
             <CreateNFTCollection />
           </div>
+        </div>
+        <div className="w-full px-4">
+          <h2 className="text-3xl">NFT Collections</h2>
+          <NFTCollections />
         </div>
       </main>
     </div>

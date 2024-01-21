@@ -69,6 +69,11 @@ contract ERC721 is
         safeMint(_to);
     }
 
+    function _baseURI() internal view virtual override returns (string memory) {
+        // TODO
+        return "";
+    }
+
     // The following functions are overrides required by Solidity.
 
     function _update(

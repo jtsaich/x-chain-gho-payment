@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { useContractRead, useContractWrite } from "wagmi";
+import { Address, useContractRead, useContractWrite } from "wagmi";
 
 import { Soul } from "@/config/contracts";
 import { useSearchParams } from "next/navigation";
@@ -12,7 +12,7 @@ const Avatar = () => {
   const inputFile = useRef(null);
 
   const searchParams = useSearchParams();
-  const address = searchParams.get("address");
+  const address = searchParams.get("address") as Address;
 
   const { data } = useContractRead({
     ...Soul,

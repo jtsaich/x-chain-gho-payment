@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsc --noEmitOnError false && next build",
     "start": "next start",
     "lint": "next lint",
     "deploy": "npx hardhat run --network localhost scripts/deploy.js"
