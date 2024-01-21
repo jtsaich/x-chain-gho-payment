@@ -40,7 +40,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         // onSignIn={(session?: SIWESession) => void}
         // onSignOut={() => void}
       >
-        <ConnectKitProvider>
+        <ConnectKitProvider theme="retro">
           <Layout>
             <Component {...pageProps} />
           </Layout>

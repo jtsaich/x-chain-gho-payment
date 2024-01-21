@@ -31,7 +31,7 @@ const CrearteSoul = ({ name: _stageName }: CrearteSoulProps) => {
   };
 
   return (
-    <button className="btn btn-primary" onClick={createSoul}>
+    <button className="btn btn-primary shadow-solid" onClick={createSoul}>
       Create soul
     </button>
   );

@@ -91,7 +91,7 @@ const CollectionPage = () => {
       </ul>
       <div className="flex justify-center p-12">
         <button
-          className="btn btn-primary items-center w-full max-w-sm"
+          className="btn btn-primary items-center w-full max-w-sm shadow-solid"
           onClick={handleMint}
         >
           Mint

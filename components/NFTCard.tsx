@@ -155,7 +155,7 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
   };
 
   return (
-    <li className="card shadow-xl flex flex-col w-56 gap-2 p-4 justify-between">
+    <li className="card border-solid border-black border-4 shadow-solid flex flex-col w-56 gap-2 p-4 justify-between">
       <div className="flex flex-col gap-2">
         <div className="font-semibold">Token #{tokenId}</div>
         <div>
@@ -166,7 +166,7 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
       {showBuyButton() &&
         (!buyApproved ? (
           <button
-            className="btn btn-primary w-full"
+            className="btn btn-primary w-full shadow-solid"
             disabled={buyInitiated}
             onClick={onBuyClick}
           >
@@ -181,7 +181,7 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
           </button>
         ) : (
           <button
-            className="btn btn-primary w-full"
+            className="btn btn-primary w-full shadow-solid"
             disabled={buyInitiated}
             onClick={onBuyClick}
           >
@@ -198,7 +198,7 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
       {showSellButton() &&
         (!sellApproved ? (
           <button
-            className="btn btn-secondary w-full"
+            className="btn btn-secondary w-full shadow-solid"
             disabled={sellInitiated}
             onClick={onSellClick}
           >
@@ -221,7 +221,7 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
               onChange={(e) => setSellPrice(e.target.value)}
             />
             <button
-              className="btn btn-secondary w-full"
+              className="btn btn-secondary w-full shadow-solid"
               disabled={sellInitiated}
               onClick={onSellClick}
             >

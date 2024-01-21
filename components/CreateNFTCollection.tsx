@@ -1,13 +1,34 @@
 import { ERC721_Factory_ADDRESS } from "@/config/contracts";
 import { useErc721FactorySetupNftCollection } from "@/generated";
-import React, { useState } from "react";
-import { parseEther, zeroHash } from "viem";
+import React, { useEffect, useState } from "react";
+import { numberToHex, parseAbiItem, parseEther, toBytes, toHex, zeroHash } from "viem";
+import { CreateNFTCollectionEventLog } from "./NFTCollections";
+import { usePublicClient } from "wagmi";
 
 const CreateNFTCollection: React.FC = () => {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
   const [maxSupply, setMaxSupply] = useState("");
+
+  const client = usePublicClient();
+  const [logs, setLogs] = useState<CreateNFTCollectionEventLog[]>();
+
+  useEffect(() => {
+    const getLogs = async () => {
+      const logs = await client.getLogs({
+        address: ERC721_Factory_ADDRESS,
+        event: parseAbiItem(
+          "event CreateNFTCollection(address creator, address collection)"
+        ),
+        fromBlock: BigInt(5122652),
+      });
+      setLogs(logs as CreateNFTCollectionEventLog[]);
+    };
+    if (client) {
+      getLogs();
+    }
+  }, [client]);
 
   const { write } = useErc721FactorySetupNftCollection({
     address: ERC721_Factory_ADDRESS,
@@ -16,9 +37,10 @@ const CreateNFTCollection: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // Handle form submission logic here
+    if (!logs) return;
 
     write({
-      args: [name, symbol, parseEther(salePrice), BigInt(maxSupply), zeroHash]
+      args: [name, symbol, parseEther(salePrice), BigInt(maxSupply), toHex(toBytes(logs.length, { size: 32}))]
     })
   };
 
@@ -80,7 +102,7 @@ const CreateNFTCollection: React.FC = () => {
             </div>
           </label>
 
-          <button type="submit" className="btn btn-primary mt-4">Submit</button>
+          <button type="submit" className="btn btn-primary mt-4 shadow-solid">Submit</button>
         </form>
       </div>
     </div>

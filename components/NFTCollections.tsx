@@ -1,15 +1,16 @@
 import { ERC721_Factory_ADDRESS } from "@/config/contracts";
 import { concatAddress } from "@/helpers";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Log, parseAbiItem } from "viem";
 import { usePublicClient } from "wagmi";
 
-interface CreateNFTCollectionEvent {
+export interface CreateNFTCollectionEvent {
   creator: string;
   collection: string;
 }
 
-interface CreateNFTCollectionEventLog extends Log {
+export interface CreateNFTCollectionEventLog extends Log {
   args: CreateNFTCollectionEvent;
 }
 
@@ -40,8 +41,8 @@ const NFTCollections = () => {
         <table className="table">
           <thead>
             <tr>
-              <th>Creator</th>
               <th>Collection</th>
+              <th>Creator</th>
             </tr>
           </thead>
           <tbody>
@@ -50,12 +51,15 @@ const NFTCollections = () => {
 
               return (
                 <tr key={logIndex}>
-                  <td>{concatAddress(args.creator)}</td>
                   <td>
-                    <a href={`/collections/${args.collection}`}>
+                    <Link
+                      href={`/collections/${args.collection}`}
+                      className="link"
+                    >
                       {concatAddress(args.collection)}
-                    </a>
+                    </Link>
                   </td>
+                  <td>{concatAddress(args.creator)}</td>
                 </tr>
               );
             })}

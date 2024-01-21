@@ -5,7 +5,7 @@ import Image from "next/Image";
 
 const Header = () => {
   return (
-    <header className="navbar p-4 bg-base-100 w-full flex justify-end">
+    <header className="navbar p-4 w-full flex justify-end bg-base-300 ">
       <div className="flex-1">
         <Link href="/">
           <Image
