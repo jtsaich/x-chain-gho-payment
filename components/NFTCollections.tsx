@@ -34,31 +34,34 @@ const NFTCollections = () => {
   }, [client]);
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Creator</th>
-            <th>Collection</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs?.map((log) => {
-            const { logIndex, args } = log;
+    <div className="w-full p-4">
+      <h2 className="text-3xl mb-4">NFT Collections</h2>
+      <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Creator</th>
+              <th>Collection</th>
+            </tr>
+          </thead>
+          <tbody>
+            {logs?.map((log) => {
+              const { logIndex, args } = log;
 
-            return (
-              <tr key={logIndex}>
-                <td>{concatAddress(args.creator)}</td>
-                <td>
-                  <a href={`/collections/${args.collection}`}>
-                    {concatAddress(args.collection)}
-                  </a>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+              return (
+                <tr key={logIndex}>
+                  <td>{concatAddress(args.creator)}</td>
+                  <td>
+                    <a href={`/collections/${args.collection}`}>
+                      {concatAddress(args.collection)}
+                    </a>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

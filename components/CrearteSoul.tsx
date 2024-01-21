@@ -3,7 +3,11 @@ import { useContractRead, useContractWrite } from "wagmi";
 
 import { SoulFactory } from "@/config/contracts";
 
-const CrearteSoul = ({ name: _stageName }) => {
+interface CrearteSoulProps {
+  name: string;
+}
+
+const CrearteSoul = ({ name: _stageName }: CrearteSoulProps) => {
   const { writeAsync } = useContractWrite({
     ...SoulFactory,
     functionName: "createSoul",

@@ -50,6 +50,9 @@ dependencies:
   react-use:
     specifier: ^17.4.3
     version: 17.4.3(react-dom@18.2.0)(react@18.2.0)
+  siwe:
+    specifier: ^2.1.4
+    version: 2.1.4(ethers@6.10.0)
   viem:
     specifier: ~1.21.4
     version: 1.21.4(typescript@5.3.3)(zod@3.22.4)
@@ -88,6 +91,9 @@ devDependencies:
   postcss:
     specifier: ^8
     version: 8.4.33
+  prettier:
+    specifier: ^3.2.4
+    version: 3.2.4
   tailwindcss:
     specifier: ^3.3.0
     version: 3.4.1(ts-node@10.9.2)
@@ -7789,6 +7795,12 @@ packages:
     resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
     hasBin: true
+
+  /prettier@3.2.4:
+    resolution: {integrity: sha512-FWu1oLHKCrtpO1ypU6J0SbK2d9Ckwysq6bHj/uaCP26DxrPpppCLQRGVuqAxSTvhF00AcvDRyYrLNW7ocBhFFQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

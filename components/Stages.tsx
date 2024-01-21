@@ -14,9 +14,11 @@ const Stages = () => {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
+      <h2 className="text-3xl mb-4">Create Soulbound Token</h2>
+
       <div className="flex flex-col gap-2">
-        <div className="flex justify-end px-4 py-5 gap-3">
+        <div className="flex gap-3">
           <input
             type="text"
             className="bg-gray-500 px-4 py-2 rounded-md"

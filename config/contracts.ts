@@ -1,8 +1,9 @@
 import _SoulFactory from "@/artifacts/contracts/SoulFactory.sol/SoulFactory.json";
 import _Soul from "@/artifacts/contracts/Soul.sol/Soul.json";
+import { Address } from "viem";
 
 export const SoulFactory = {
-  address: "0xe4803D7F4333EcF2C92D9304Fdf2bb646f97e828",
+  address: "0xe4803D7F4333EcF2C92D9304Fdf2bb646f97e828" as Address,
   abi: _SoulFactory.abi,
 };
 

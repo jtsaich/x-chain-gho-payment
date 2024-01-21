@@ -1,14 +1,12 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
-import { WagmiConfig, createConfig, mainnet, sepolia } from "wagmi";
-import { arbitrum, optimism, polygon, localhost } from "wagmi/chains";
+import { WagmiConfig, createConfig, sepolia } from "wagmi";
+import { localhost } from "wagmi/chains";
+import { siweClient } from "@/utils/siweClient";
 
-import {
-  ConnectKitProvider,
-  ConnectKitButton,
-  getDefaultConfig,
-} from "connectkit";
+import { ConnectKitProvider, SIWESession, getDefaultConfig } from "connectkit";
+import Layout from "@/components/Layout";
 
 const config = createConfig(
   getDefaultConfig({
@@ -31,9 +29,23 @@ const config = createConfig(
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <WagmiConfig config={config}>
-      <ConnectKitProvider>
-        <Component {...pageProps} />
-      </ConnectKitProvider>
+      <siweClient.Provider
+        // Optional parameters
+        enabled={true} // defaults true
+        nonceRefetchInterval={300000} // in milliseconds, defaults to 5 minutes
+        sessionRefetchInterval={300000} // in milliseconds, defaults to 5 minutes
+        signOutOnDisconnect={true} // defaults true
+        signOutOnAccountChange={true} // defaults true
+        signOutOnNetworkChange={true} // defaults true
+        // onSignIn={(session?: SIWESession) => void}
+        // onSignOut={() => void}
+      >
+        <ConnectKitProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ConnectKitProvider>
+      </siweClient.Provider>
     </WagmiConfig>
   );
 };
