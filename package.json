@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "tsc --noEmitOnError false && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "deploy": "npx hardhat run --network localhost scripts/deploy.js"
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition-ethers": "^0.13.1",
+    "@types/formidable": "^3.4.5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

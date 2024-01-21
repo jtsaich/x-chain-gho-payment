@@ -13,6 +13,8 @@ const Stages = () => {
     functionName: "getSouls",
   });
 
+  const dataToRender = data as any[];
+
   return (
     <div className="w-full p-4">
       <h2 className="text-3xl mb-4 font-bold">Create Soulbound Token</h2>
@@ -31,8 +33,8 @@ const Stages = () => {
           <div className="w-[100px] font-bold">stage</div>
           <div className="font-bold">address</div>
         </div>
-        {data &&
-          data.map((el) => (
+        {dataToRender &&
+          dataToRender.map((el) => (
             <div key={el.addr} className="flex">
               <div
                 className="w-[100px] hover:text-sky-500 cursor-pointer"

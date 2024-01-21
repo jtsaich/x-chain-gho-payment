@@ -64,6 +64,9 @@ devDependencies:
   '@nomicfoundation/hardhat-ignition-ethers':
     specifier: ^0.13.1
     version: 0.13.1(@nomicfoundation/hardhat-ethers@3.0.5)(@nomicfoundation/hardhat-ignition@0.13.1)(@nomicfoundation/ignition-core@0.13.1)(ethers@6.10.0)(hardhat@2.19.4)
+  '@types/formidable':
+    specifier: ^3.4.5
+    version: 3.4.5
   '@types/node':
     specifier: ^20
     version: 20.11.5
@@ -2333,6 +2336,12 @@ packages:
     dependencies:
       '@types/node': 20.11.5
     dev: false
+
+  /@types/formidable@3.4.5:
+    resolution: {integrity: sha512-s7YPsNVfnsng5L8sKnG/Gbb2tiwwJTY1conOkJzTMRvJAlLFW1nEua+ADsJQu8N1c0oTHx9+d5nqg10WuT9gHQ==}
+    dependencies:
+      '@types/node': 20.11.5
+    dev: true
 
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}

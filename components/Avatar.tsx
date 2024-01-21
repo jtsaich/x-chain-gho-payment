@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, EventHandler } from "react";
 import Image from "next/image";
 import { Address, useContractRead, useContractWrite } from "wagmi";
 
@@ -6,10 +6,10 @@ import { Soul } from "@/config/contracts";
 import { useSearchParams } from "next/navigation";
 
 const Avatar = () => {
-  const [avatarCid, setAvatarCid] = useState("");
+  const [avatarCid, setAvatarCid] = useState<any>("");
   const [uploading, setUploading] = useState(false);
-  const [image, setImage] = useState(null);
-  const inputFile = useRef(null);
+  const [image, setImage] = useState<string | null>();
+  const inputFile = useRef<HTMLInputElement>(null);
 
   const searchParams = useSearchParams();
   const address = searchParams.get("address") as Address;
@@ -26,13 +26,13 @@ const Avatar = () => {
     functionName: "updateAvatarCid",
   });
 
-  const showAvatar = (file) => {
-    const reader = new FileReader(file);
-    reader.onload = () => setImage(reader.result);
+  const showAvatar = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = () => setImage(reader.result as string);
     reader.readAsDataURL(file);
   };
 
-  const uploadFile = async (file) => {
+  const uploadFile = async (file: File) => {
     try {
       setUploading(true);
       const formData = new FormData();
@@ -52,7 +52,9 @@ const Avatar = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
     const file = e.target.files[0];
     if (file === undefined) return;
 
@@ -61,7 +63,8 @@ const Avatar = () => {
   };
 
   useEffect(() => {
-    if (data !== undefined) setAvatarCid(data);
+    if (!data) return;
+    setAvatarCid(data);
   }, [data]);
   return (
     <div className="py-4">
@@ -74,7 +77,7 @@ const Avatar = () => {
         style={{ display: "none" }}
       />
       {avatarCid === "" ? (
-        image === null ? (
+        !image ? (
           <Image
             src={
               "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-26.jpg"
@@ -83,7 +86,7 @@ const Avatar = () => {
             height={296}
             alt=""
             className="bg-white rounded-full cursor-pointer"
-            onClick={() => inputFile.current.click()}
+            onClick={() => inputFile?.current?.click()}
           />
         ) : (
           <Image
@@ -92,7 +95,7 @@ const Avatar = () => {
             width={296}
             height={296}
             className="rounded-full cursor-pointer"
-            onClick={() => inputFile.current.click()}
+            onClick={() => inputFile?.current?.click()}
           />
         )
       ) : (
@@ -102,7 +105,7 @@ const Avatar = () => {
           width={296}
           height={296}
           className="rounded-full cursor-pointer"
-          onClick={() => inputFile.current.click()}
+          onClick={() => inputFile?.current?.click()}
         />
       )}
     </div>
