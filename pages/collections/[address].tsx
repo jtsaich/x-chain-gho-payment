@@ -1,3 +1,4 @@
+import NFTCard from "@/components/NFTCard";
 import { ERC721_ADDRESS } from "@/config/contracts";
 import {
   useErc721MintNft,
@@ -6,7 +7,7 @@ import {
 } from "@/generated";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Log, hexToNumber, parseAbiItem, parseEther } from "viem";
+import { Log, hexToNumber, parseAbiItem, parseEther, zeroAddress } from "viem";
 import { Address, useAccount, usePublicClient } from "wagmi";
 
 interface TransferEvent {
@@ -31,10 +32,10 @@ const CollectionPage = () => {
       const logs = await client.getLogs({
         address: nftAddress as Address,
         event: parseAbiItem(
-          "event Transfer(address from, address to, uint256 tokens)"
+          "event Transfer(address indexed from, address indexed to, uint256 tokens)"
         ),
         args: {
-          from: "0x0000000000000000000000000000000000000000",
+          from: zeroAddress,
         },
         fromBlock: BigInt(5122652),
       });
@@ -81,9 +82,11 @@ const CollectionPage = () => {
           // {hexToNumber(tokens!)}
 
           return (
-            <li key={logIndex}>
-              <img src="/gho.svg" />
-            </li>
+            <NFTCard
+              key={logIndex}
+              address={nftAddress as Address}
+              tokenId={hexToNumber(tokens!)}
+            />
           );
         })}
       </ul>

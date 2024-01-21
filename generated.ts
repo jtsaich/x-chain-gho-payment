@@ -15,6 +15,107 @@ import {
 } from 'wagmi/actions'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ERC20
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const erc20ABI = [
+  {
+    type: 'event',
+    inputs: [
+      { name: 'owner', type: 'address', indexed: true },
+      { name: 'spender', type: 'address', indexed: true },
+      { name: 'value', type: 'uint256', indexed: false },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    inputs: [
+      { name: 'from', type: 'address', indexed: true },
+      { name: 'to', type: 'address', indexed: true },
+      { name: 'value', type: 'uint256', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'account', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', type: 'uint8' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'recipient', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', type: 'bool' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'sender', type: 'address' },
+      { name: 'recipient', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', type: 'bool' }],
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ERC721
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -490,10 +591,10 @@ export const erc721FactoryABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// TradeWithGhoToken
+// TradeWithERC20Token
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const tradeWithGhoTokenABI = [
+export const tradeWithErc20TokenABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
   {
     type: 'error',
@@ -530,17 +631,9 @@ export const tradeWithGhoTokenABI = [
     inputs: [
       { name: 'nftContract', internalType: 'address', type: 'address' },
       { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
     ],
     name: 'buy',
     outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'ghoToken',
-    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
   },
   {
     stateMutability: 'view',
@@ -553,6 +646,7 @@ export const tradeWithGhoTokenABI = [
     outputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
       { name: 'price', internalType: 'uint256', type: 'uint256' },
+      { name: 'erc20', internalType: 'address', type: 'address' },
     ],
   },
   {
@@ -576,6 +670,7 @@ export const tradeWithGhoTokenABI = [
       { name: 'nftContract', internalType: 'address', type: 'address' },
       { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
       { name: 'price', internalType: 'uint256', type: 'uint256' },
+      { name: 'erc20', internalType: 'address', type: 'address' },
     ],
     name: 'sell',
     outputs: [],
@@ -592,6 +687,349 @@ export const tradeWithGhoTokenABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__.
+ */
+export function useErc20Read<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
+    'abi'
+  > = {} as any,
+) {
+  return useContractRead({ abi: erc20ABI, ...config } as UseContractReadConfig<
+    typeof erc20ABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"allowance"`.
+ */
+export function useErc20Allowance<
+  TFunctionName extends 'allowance',
+  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: erc20ABI,
+    functionName: 'allowance',
+    ...config,
+  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"balanceOf"`.
+ */
+export function useErc20BalanceOf<
+  TFunctionName extends 'balanceOf',
+  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    ...config,
+  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"decimals"`.
+ */
+export function useErc20Decimals<
+  TFunctionName extends 'decimals',
+  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: erc20ABI,
+    functionName: 'decimals',
+    ...config,
+  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"name"`.
+ */
+export function useErc20Name<
+  TFunctionName extends 'name',
+  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: erc20ABI,
+    functionName: 'name',
+    ...config,
+  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"symbol"`.
+ */
+export function useErc20Symbol<
+  TFunctionName extends 'symbol',
+  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: erc20ABI,
+    functionName: 'symbol',
+    ...config,
+  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"totalSupply"`.
+ */
+export function useErc20TotalSupply<
+  TFunctionName extends 'totalSupply',
+  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: erc20ABI,
+    functionName: 'totalSupply',
+    ...config,
+  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__.
+ */
+export function useErc20Write<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof erc20ABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof erc20ABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any,
+) {
+  return useContractWrite<typeof erc20ABI, TFunctionName, TMode>({
+    abi: erc20ABI,
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"approve"`.
+ */
+export function useErc20Approve<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof erc20ABI,
+          'approve'
+        >['request']['abi'],
+        'approve',
+        TMode
+      > & { functionName?: 'approve' }
+    : UseContractWriteConfig<typeof erc20ABI, 'approve', TMode> & {
+        abi?: never
+        functionName?: 'approve'
+      } = {} as any,
+) {
+  return useContractWrite<typeof erc20ABI, 'approve', TMode>({
+    abi: erc20ABI,
+    functionName: 'approve',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transfer"`.
+ */
+export function useErc20Transfer<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof erc20ABI,
+          'transfer'
+        >['request']['abi'],
+        'transfer',
+        TMode
+      > & { functionName?: 'transfer' }
+    : UseContractWriteConfig<typeof erc20ABI, 'transfer', TMode> & {
+        abi?: never
+        functionName?: 'transfer'
+      } = {} as any,
+) {
+  return useContractWrite<typeof erc20ABI, 'transfer', TMode>({
+    abi: erc20ABI,
+    functionName: 'transfer',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function useErc20TransferFrom<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof erc20ABI,
+          'transferFrom'
+        >['request']['abi'],
+        'transferFrom',
+        TMode
+      > & { functionName?: 'transferFrom' }
+    : UseContractWriteConfig<typeof erc20ABI, 'transferFrom', TMode> & {
+        abi?: never
+        functionName?: 'transferFrom'
+      } = {} as any,
+) {
+  return useContractWrite<typeof erc20ABI, 'transferFrom', TMode>({
+    abi: erc20ABI,
+    functionName: 'transferFrom',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__.
+ */
+export function usePrepareErc20Write<TFunctionName extends string>(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof erc20ABI, TFunctionName>,
+    'abi'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: erc20ABI,
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof erc20ABI, TFunctionName>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"approve"`.
+ */
+export function usePrepareErc20Approve(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof erc20ABI, 'approve'>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: erc20ABI,
+    functionName: 'approve',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'approve'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transfer"`.
+ */
+export function usePrepareErc20Transfer(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof erc20ABI, 'transfer'>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: erc20ABI,
+    functionName: 'transfer',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'transfer'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function usePrepareErc20TransferFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof erc20ABI, 'transferFrom'>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: erc20ABI,
+    functionName: 'transferFrom',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'transferFrom'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20ABI}__.
+ */
+export function useErc20Event<TEventName extends string>(
+  config: Omit<
+    UseContractEventConfig<typeof erc20ABI, TEventName>,
+    'abi'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: erc20ABI,
+    ...config,
+  } as UseContractEventConfig<typeof erc20ABI, TEventName>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20ABI}__ and `eventName` set to `"Approval"`.
+ */
+export function useErc20ApprovalEvent(
+  config: Omit<
+    UseContractEventConfig<typeof erc20ABI, 'Approval'>,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: erc20ABI,
+    eventName: 'Approval',
+    ...config,
+  } as UseContractEventConfig<typeof erc20ABI, 'Approval'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20ABI}__ and `eventName` set to `"Transfer"`.
+ */
+export function useErc20TransferEvent(
+  config: Omit<
+    UseContractEventConfig<typeof erc20ABI, 'Transfer'>,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: erc20ABI,
+    eventName: 'Transfer',
+    ...config,
+  } as UseContractEventConfig<typeof erc20ABI, 'Transfer'>)
+}
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc721ABI}__.
@@ -1692,15 +2130,18 @@ export function useErc721FactoryCreateNftCollectionEvent(
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link tradeWithGhoTokenABI}__.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link tradeWithErc20TokenABI}__.
  */
-export function useTradeWithGhoTokenRead<
+export function useTradeWithErc20TokenRead<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof tradeWithGhoTokenABI, TFunctionName>,
+  TSelectData = ReadContractResult<
+    typeof tradeWithErc20TokenABI,
+    TFunctionName
+  >,
 >(
   config: Omit<
     UseContractReadConfig<
-      typeof tradeWithGhoTokenABI,
+      typeof tradeWithErc20TokenABI,
       TFunctionName,
       TSelectData
     >,
@@ -1708,52 +2149,28 @@ export function useTradeWithGhoTokenRead<
   > = {} as any,
 ) {
   return useContractRead({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     ...config,
   } as UseContractReadConfig<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"ghoToken"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"listings"`.
  */
-export function useTradeWithGhoTokenGhoToken<
-  TFunctionName extends 'ghoToken',
-  TSelectData = ReadContractResult<typeof tradeWithGhoTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof tradeWithGhoTokenABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: tradeWithGhoTokenABI,
-    functionName: 'ghoToken',
-    ...config,
-  } as UseContractReadConfig<
-    typeof tradeWithGhoTokenABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"listings"`.
- */
-export function useTradeWithGhoTokenListings<
+export function useTradeWithErc20TokenListings<
   TFunctionName extends 'listings',
-  TSelectData = ReadContractResult<typeof tradeWithGhoTokenABI, TFunctionName>,
+  TSelectData = ReadContractResult<
+    typeof tradeWithErc20TokenABI,
+    TFunctionName
+  >,
 >(
   config: Omit<
     UseContractReadConfig<
-      typeof tradeWithGhoTokenABI,
+      typeof tradeWithErc20TokenABI,
       TFunctionName,
       TSelectData
     >,
@@ -1761,26 +2178,29 @@ export function useTradeWithGhoTokenListings<
   > = {} as any,
 ) {
   return useContractRead({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'listings',
     ...config,
   } as UseContractReadConfig<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"owner"`.
  */
-export function useTradeWithGhoTokenOwner<
+export function useTradeWithErc20TokenOwner<
   TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof tradeWithGhoTokenABI, TFunctionName>,
+  TSelectData = ReadContractResult<
+    typeof tradeWithErc20TokenABI,
+    TFunctionName
+  >,
 >(
   config: Omit<
     UseContractReadConfig<
-      typeof tradeWithGhoTokenABI,
+      typeof tradeWithErc20TokenABI,
       TFunctionName,
       TSelectData
     >,
@@ -1788,90 +2208,90 @@ export function useTradeWithGhoTokenOwner<
   > = {} as any,
 ) {
   return useContractRead({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'owner',
     ...config,
   } as UseContractReadConfig<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__.
  */
-export function useTradeWithGhoTokenWrite<
+export function useTradeWithErc20TokenWrite<
   TFunctionName extends string,
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof tradeWithGhoTokenABI,
+          typeof tradeWithErc20TokenABI,
           string
         >['request']['abi'],
         TFunctionName,
         TMode
       >
     : UseContractWriteConfig<
-        typeof tradeWithGhoTokenABI,
+        typeof tradeWithErc20TokenABI,
         TFunctionName,
         TMode
       > & {
         abi?: never
       } = {} as any,
 ) {
-  return useContractWrite<typeof tradeWithGhoTokenABI, TFunctionName, TMode>({
-    abi: tradeWithGhoTokenABI,
+  return useContractWrite<typeof tradeWithErc20TokenABI, TFunctionName, TMode>({
+    abi: tradeWithErc20TokenABI,
     ...config,
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"buy"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"buy"`.
  */
-export function useTradeWithGhoTokenBuy<
+export function useTradeWithErc20TokenBuy<
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof tradeWithGhoTokenABI,
+          typeof tradeWithErc20TokenABI,
           'buy'
         >['request']['abi'],
         'buy',
         TMode
       > & { functionName?: 'buy' }
-    : UseContractWriteConfig<typeof tradeWithGhoTokenABI, 'buy', TMode> & {
+    : UseContractWriteConfig<typeof tradeWithErc20TokenABI, 'buy', TMode> & {
         abi?: never
         functionName?: 'buy'
       } = {} as any,
 ) {
-  return useContractWrite<typeof tradeWithGhoTokenABI, 'buy', TMode>({
-    abi: tradeWithGhoTokenABI,
+  return useContractWrite<typeof tradeWithErc20TokenABI, 'buy', TMode>({
+    abi: tradeWithErc20TokenABI,
     functionName: 'buy',
     ...config,
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"renounceOwnership"`.
  */
-export function useTradeWithGhoTokenRenounceOwnership<
+export function useTradeWithErc20TokenRenounceOwnership<
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof tradeWithGhoTokenABI,
+          typeof tradeWithErc20TokenABI,
           'renounceOwnership'
         >['request']['abi'],
         'renounceOwnership',
         TMode
       > & { functionName?: 'renounceOwnership' }
     : UseContractWriteConfig<
-        typeof tradeWithGhoTokenABI,
+        typeof tradeWithErc20TokenABI,
         'renounceOwnership',
         TMode
       > & {
@@ -1880,60 +2300,60 @@ export function useTradeWithGhoTokenRenounceOwnership<
       } = {} as any,
 ) {
   return useContractWrite<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     'renounceOwnership',
     TMode
   >({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'renounceOwnership',
     ...config,
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"sell"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"sell"`.
  */
-export function useTradeWithGhoTokenSell<
+export function useTradeWithErc20TokenSell<
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof tradeWithGhoTokenABI,
+          typeof tradeWithErc20TokenABI,
           'sell'
         >['request']['abi'],
         'sell',
         TMode
       > & { functionName?: 'sell' }
-    : UseContractWriteConfig<typeof tradeWithGhoTokenABI, 'sell', TMode> & {
+    : UseContractWriteConfig<typeof tradeWithErc20TokenABI, 'sell', TMode> & {
         abi?: never
         functionName?: 'sell'
       } = {} as any,
 ) {
-  return useContractWrite<typeof tradeWithGhoTokenABI, 'sell', TMode>({
-    abi: tradeWithGhoTokenABI,
+  return useContractWrite<typeof tradeWithErc20TokenABI, 'sell', TMode>({
+    abi: tradeWithErc20TokenABI,
     functionName: 'sell',
     ...config,
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"transferOwnership"`.
  */
-export function useTradeWithGhoTokenTransferOwnership<
+export function useTradeWithErc20TokenTransferOwnership<
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof tradeWithGhoTokenABI,
+          typeof tradeWithErc20TokenABI,
           'transferOwnership'
         >['request']['abi'],
         'transferOwnership',
         TMode
       > & { functionName?: 'transferOwnership' }
     : UseContractWriteConfig<
-        typeof tradeWithGhoTokenABI,
+        typeof tradeWithErc20TokenABI,
         'transferOwnership',
         TMode
       > & {
@@ -1942,140 +2362,145 @@ export function useTradeWithGhoTokenTransferOwnership<
       } = {} as any,
 ) {
   return useContractWrite<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     'transferOwnership',
     TMode
   >({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'transferOwnership',
     ...config,
   } as any)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__.
  */
-export function usePrepareTradeWithGhoTokenWrite<TFunctionName extends string>(
+export function usePrepareTradeWithErc20TokenWrite<
+  TFunctionName extends string,
+>(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof tradeWithGhoTokenABI, TFunctionName>,
+    UsePrepareContractWriteConfig<typeof tradeWithErc20TokenABI, TFunctionName>,
     'abi'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     ...config,
   } as UsePrepareContractWriteConfig<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     TFunctionName
   >)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"buy"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"buy"`.
  */
-export function usePrepareTradeWithGhoTokenBuy(
+export function usePrepareTradeWithErc20TokenBuy(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof tradeWithGhoTokenABI, 'buy'>,
+    UsePrepareContractWriteConfig<typeof tradeWithErc20TokenABI, 'buy'>,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'buy',
     ...config,
-  } as UsePrepareContractWriteConfig<typeof tradeWithGhoTokenABI, 'buy'>)
+  } as UsePrepareContractWriteConfig<typeof tradeWithErc20TokenABI, 'buy'>)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"renounceOwnership"`.
  */
-export function usePrepareTradeWithGhoTokenRenounceOwnership(
+export function usePrepareTradeWithErc20TokenRenounceOwnership(
   config: Omit<
     UsePrepareContractWriteConfig<
-      typeof tradeWithGhoTokenABI,
+      typeof tradeWithErc20TokenABI,
       'renounceOwnership'
     >,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'renounceOwnership',
     ...config,
   } as UsePrepareContractWriteConfig<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     'renounceOwnership'
   >)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"sell"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"sell"`.
  */
-export function usePrepareTradeWithGhoTokenSell(
+export function usePrepareTradeWithErc20TokenSell(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof tradeWithGhoTokenABI, 'sell'>,
+    UsePrepareContractWriteConfig<typeof tradeWithErc20TokenABI, 'sell'>,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'sell',
     ...config,
-  } as UsePrepareContractWriteConfig<typeof tradeWithGhoTokenABI, 'sell'>)
+  } as UsePrepareContractWriteConfig<typeof tradeWithErc20TokenABI, 'sell'>)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `functionName` set to `"transferOwnership"`.
  */
-export function usePrepareTradeWithGhoTokenTransferOwnership(
+export function usePrepareTradeWithErc20TokenTransferOwnership(
   config: Omit<
     UsePrepareContractWriteConfig<
-      typeof tradeWithGhoTokenABI,
+      typeof tradeWithErc20TokenABI,
       'transferOwnership'
     >,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     functionName: 'transferOwnership',
     ...config,
   } as UsePrepareContractWriteConfig<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     'transferOwnership'
   >)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link tradeWithGhoTokenABI}__.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link tradeWithErc20TokenABI}__.
  */
-export function useTradeWithGhoTokenEvent<TEventName extends string>(
+export function useTradeWithErc20TokenEvent<TEventName extends string>(
   config: Omit<
-    UseContractEventConfig<typeof tradeWithGhoTokenABI, TEventName>,
+    UseContractEventConfig<typeof tradeWithErc20TokenABI, TEventName>,
     'abi'
   > = {} as any,
 ) {
   return useContractEvent({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     ...config,
-  } as UseContractEventConfig<typeof tradeWithGhoTokenABI, TEventName>)
+  } as UseContractEventConfig<typeof tradeWithErc20TokenABI, TEventName>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link tradeWithGhoTokenABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link tradeWithErc20TokenABI}__ and `eventName` set to `"OwnershipTransferred"`.
  */
-export function useTradeWithGhoTokenOwnershipTransferredEvent(
+export function useTradeWithErc20TokenOwnershipTransferredEvent(
   config: Omit<
-    UseContractEventConfig<typeof tradeWithGhoTokenABI, 'OwnershipTransferred'>,
+    UseContractEventConfig<
+      typeof tradeWithErc20TokenABI,
+      'OwnershipTransferred'
+    >,
     'abi' | 'eventName'
   > = {} as any,
 ) {
   return useContractEvent({
-    abi: tradeWithGhoTokenABI,
+    abi: tradeWithErc20TokenABI,
     eventName: 'OwnershipTransferred',
     ...config,
   } as UseContractEventConfig<
-    typeof tradeWithGhoTokenABI,
+    typeof tradeWithErc20TokenABI,
     'OwnershipTransferred'
   >)
 }

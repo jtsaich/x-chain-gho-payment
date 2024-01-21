@@ -10,6 +10,7 @@ export const Soul = {
   abi: _Soul.abi,
 };
 
-export const TradeWithGhoToken_ADDRESS = "0x9d194e0E9bE61000C60a378513DeFF8c6AA63F70";
+export const TradeWithERC20Token_ADDRESS = "0x6B3D8CB1810118aBa42003Fc7e4Ec7BC9D1f708e";
 export const ERC721_ADDRESS = "0x963F66880128dddD439c4B0d053e094F8309dd90";
 export const ERC721_Factory_ADDRESS = "0x412fDA54F593c5796ccFd1D24B861A3FC4B718CB";
+export const GhoToken_ADDRESS = "0xc4bF5CbDaBE595361438F8c6a187bDc330539c60";
