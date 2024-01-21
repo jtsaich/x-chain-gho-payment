@@ -36,5 +36,5 @@ yarn-error.log*
 next-env.d.ts
 
 /cache
-/artifacts/**/*
-!/artifacts/contracts/
+/artifacts/*
+!/artifacts/contracts
