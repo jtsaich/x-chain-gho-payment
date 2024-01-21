@@ -31,10 +31,7 @@ const CrearteSoul = ({ name: _stageName }: CrearteSoulProps) => {
   };
 
   return (
-    <button
-      className="px-4 py-1 bg-sky-500/75 hover:bg-sky-500/50 rounded-lg"
-      onClick={createSoul}
-    >
+    <button className="btn btn-primary" onClick={createSoul}>
       Create soul
     </button>
   );

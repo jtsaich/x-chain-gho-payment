@@ -72,14 +72,13 @@ const CollectionPage = () => {
   };
 
   return (
-    <div className="container mx-auto">
-      <h2 className="text-3xl">{name}</h2>
+    <div className="container mx-auto py-4">
+      <h2 className="text-3xl mb-4 font-bold">{name}</h2>
 
-      <ul className="flex flex-row gap-8">
+      <ul className="flex flex-row gap-4">
         {mintNFTLogs?.map((log) => {
           const { logIndex, topics } = log;
           const [, from, to, tokens] = topics;
-          // {hexToNumber(tokens!)}
 
           return (
             <NFTCard
@@ -90,10 +89,14 @@ const CollectionPage = () => {
           );
         })}
       </ul>
-
-      <button className="btn btn-primary" onClick={handleMint}>
-        Mint
-      </button>
+      <div className="flex justify-center p-12">
+        <button
+          className="btn btn-primary items-center w-full max-w-sm"
+          onClick={handleMint}
+        >
+          Mint
+        </button>
+      </div>
     </div>
   );
 };

@@ -17,18 +17,7 @@ const config: Config = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: [
-      {
-        dark: {
-          ...require("daisyui/src/theming/themes")["dark"],
-          "--fallback-b1": "#3B3B3B",
-          "--rounded-box": "2px",
-          primary: "#00D5FF",
-          "--rounded-btn": "2px",
-          "--fallback-bc": "#FFF",
-        },
-      },
-    ],
+    themes: ["retro"],
   },
 };
 export default config;

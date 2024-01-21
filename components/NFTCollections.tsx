@@ -35,7 +35,7 @@ const NFTCollections = () => {
 
   return (
     <div className="w-full p-4">
-      <h2 className="text-3xl mb-4">NFT Collections</h2>
+      <h2 className="text-3xl mb-4 font-bold">NFT Collections</h2>
       <div className="overflow-x-auto">
         <table className="table">
           <thead>

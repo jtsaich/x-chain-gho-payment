@@ -155,14 +155,18 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
   };
 
   return (
-    <li className="w-48">
-      <p>Token #{tokenId}</p>
-      <img src="/gho.svg" alt="NFT" />
+    <li className="card shadow-xl flex flex-col w-56 gap-2 p-4 justify-between">
+      <div className="flex flex-col gap-2">
+        <div className="font-semibold">Token #{tokenId}</div>
+        <div>
+          <img src="/gho.svg" alt="NFT" className="mx-auto" />
+        </div>
+      </div>
 
       {showBuyButton() &&
         (!buyApproved ? (
           <button
-            className="btn btn-primary"
+            className="btn btn-primary w-full"
             disabled={buyInitiated}
             onClick={onBuyClick}
           >
@@ -177,7 +181,7 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
           </button>
         ) : (
           <button
-            className="btn btn-primary"
+            className="btn btn-primary w-full"
             disabled={buyInitiated}
             onClick={onBuyClick}
           >
@@ -194,7 +198,7 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
       {showSellButton() &&
         (!sellApproved ? (
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary w-full"
             disabled={sellInitiated}
             onClick={onSellClick}
           >
@@ -211,13 +215,13 @@ const NFTCard = ({ address, tokenId }: NFTCardProps) => {
           <div>
             <input
               type="text"
-              className="pl-3 pr-8 py-2 border rounded w-full"
+              className="input input-bordered w-full mb-2"
               placeholder="Sell Price in GHO"
               value={sellPrice}
               onChange={(e) => setSellPrice(e.target.value)}
             />
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary w-full"
               disabled={sellInitiated}
               onClick={onSellClick}
             >

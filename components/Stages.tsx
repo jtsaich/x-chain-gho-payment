@@ -15,13 +15,13 @@ const Stages = () => {
 
   return (
     <div className="w-full p-4">
-      <h2 className="text-3xl mb-4">Create Soulbound Token</h2>
+      <h2 className="text-3xl mb-4 font-bold">Create Soulbound Token</h2>
 
       <div className="flex flex-col gap-2">
         <div className="flex gap-3">
           <input
             type="text"
-            className="bg-gray-500 px-4 py-2 rounded-md"
+            className="input input-bordered"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />

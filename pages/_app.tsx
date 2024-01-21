@@ -5,7 +5,7 @@ import { WagmiConfig, createConfig, sepolia } from "wagmi";
 import { localhost } from "wagmi/chains";
 import { siweClient } from "@/utils/siweClient";
 
-import { ConnectKitProvider, SIWESession, getDefaultConfig } from "connectkit";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import Layout from "@/components/Layout";
 
 const config = createConfig(
@@ -15,7 +15,7 @@ const config = createConfig(
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
 
     // Required
-    appName: "GHO Trade NFTs",
+    appName: "GHO NFT Fund",
 
     // Optional
     appDescription: "Your App Description",

@@ -1,13 +1,20 @@
 import React from "react";
-import { ConnectKitButton, useChains } from "connectkit";
-import { useSwitchNetwork } from "wagmi";
+import { ConnectKitButton } from "connectkit";
 import Link from "next/link";
+import Image from "next/Image";
 
 const Header = () => {
   return (
     <header className="navbar p-4 bg-base-100 w-full flex justify-end">
       <div className="flex-1">
-        <Link href="/">X-Chain</Link>
+        <Link href="/">
+          <Image
+            src="/gho-nft-fund.png"
+            alt="GHO NFT Fund"
+            width={64}
+            height={64}
+          />
+        </Link>
       </div>
       <div className="flex-none">
         {/* <select onChange={(e) => switchNetwork(e.target.value)}>
